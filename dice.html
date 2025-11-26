@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tiger's Web - Digital dice</title>
+  <style>
+    :root{
+      --bg: #0b3a24;
+      --card: #0a2d1c;
+      --accent: #ff8a00;
+      --size: 180px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg,var(--bg),#084422);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .wrap{
+      width:clamp(320px,42vw,860px);
+      text-align:center;
+      padding:28px;
+      border-radius:14px;
+      background:rgba(0,0,0,0.55);
+      box-shadow:0 8px 30px rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+    }
+
+    h1{font-size:28px;margin:0 0 14px;color:#fff;font-weight:700;text-shadow:0 3px 8px rgba(0,0,0,0.9);}    
+    .scene{display:flex;gap:24px;align-items:center;justify-content:center;flex-wrap:wrap;}
+
+    .die{
+      width:var(--size);
+      height:var(--size);
+      border-radius:18px;
+      background:linear-gradient(135deg,#1c6b3d,#0a2d1c);
+      display:grid;
+      place-items:center;
+      font-weight:700;
+      font-size:72px;
+      color:var(--accent);
+      position:relative;
+      transition:transform 400ms cubic-bezier(.2,.9,.3,1);
+      transform-style:preserve-3d;
+      user-select:none;
+      border:6px solid #1f5f3a;
+      box-shadow:0 0 15px rgba(0,0,0,0.5), inset 0 0 12px rgba(0,0,0,0.35);
+    }
+
+    .die.rolling{ animation:tumble 1.2s cubic-bezier(.16,.9,.3,1); }
+
+    @keyframes tumble{
+      0%{ transform: rotateX(0) rotateY(0) translateY(0) scale(1); }
+      25%{ transform: rotateX(720deg) rotateY(540deg) translateY(-10px) scale(1.05); }
+      60%{ transform: rotateX(1080deg) rotateY(1080deg) translateY(-6px) scale(1.02); }
+      100%{ transform: rotateX(0) rotateY(0) translateY(0) scale(1); }
+    }
+
+    .controls{display:flex;flex-direction:column;gap:12px;align-items:center}
+
+    button{
+      appearance:none;border:0;padding:12px 20px;border-radius:999px;font-size:18px;font-weight:600;
+      cursor:pointer;transition:transform .14s ease, box-shadow .14s ease;min-width:130px;
+    }
+
+    #roll{background:linear-gradient(90deg,var(--accent),#ffb300);color:#07101a;box-shadow:0 8px 20px rgba(255,140,0,0.18);}    
+    #zooBtn{background:linear-gradient(90deg,#ffcc33,#ffb300);color:#07101a;box-shadow:0 8px 20px rgba(255,204,51,0.25);}    
+
+    #roll:active,#zooBtn:active{transform:translateY(2px)}
+
+    .golden{
+      border:6px solid #ffcc33 !important;
+      box-shadow:0 0 18px #ffcc3380, inset 0 0 12px #ffcc3333 !important;
+    }
+
+    a{color:#ffcc33;font-size:20px;text-decoration:none;display:block;margin-top:25px;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Tiger's Web — Digital Dice</h1>
+    <p>Click on <strong>Roll</strong> to roll the dice.</p>
+
+    <div class="scene">
+      <div id="die" class="die">—</div>
+      <div class="controls">
+        <button id="roll">Roll</button>
+        <button id="zooBtn">Zoo Case</button>
+        <div id="history">Last roll : —</div> 
+      </div>
+    </div>
+
+    <a href="index.html">⬅ Back</a>
+  </div>
+
+<script>
+  const die=document.getElementById('die');
+  const rollBtn=document.getElementById('roll');
+  const zooBtn=document.getElementById('zooBtn');
+  const hist=document.getElementById('history');
+
+  function rand(){ return Math.floor(Math.random()*6)+1; }
+  function show(n){ die.textContent=n; hist.textContent="Last roll : "+n; }
+
+  function animateRoll(callback){
+    die.classList.remove('golden');
+    die.classList.add('rolling');
+    const flick=setInterval(()=>die.textContent=rand(),80);
+    setTimeout(()=>{
+      clearInterval(flick);
+      die.classList.remove('rolling');
+      callback();
+    },1200);
+  }
+
+  rollBtn.onclick=()=>{
+    animateRoll(()=>{
+      const n=rand(); show(n);
+    });
+  };
+
+  zooBtn.onclick=()=>{
+    animateRoll(()=>{
+      const n=rand(); show(n);
+      if(n===6){ 
+        die.classList.add('golden');
+        setTimeout(()=>{
+          if(typeof librePopup !== 'undefined') librePopup.style.display = 'flex';
+        }, 900); // délai augmenté pour laisser voir le 6
+      }
+    });
+  };
+
+  show('—');
+</script>
+  <!-- Popup ajouté -->
+  <div id="librePopup" style="position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:9999;">
+    <div style="background:#fff;border-radius:16px;padding:30px 40px;text-align:center;max-width:320px;box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+      <h2 style="color:#ff8a00;margin:0 0 15px;font-size:26px;font-weight:700;">You are free! 🐾</h2>
+      <p style="color:#333;font-size:18px;margin:0 0 20px;">You rolled a 6, you escaped from the zoo!</p>
+      <button id="closeLibrePopup" style="padding:10px 22px;font-size:16px;font-weight:600;border:0;border-radius:10px;background:#ff8a00;color:#fff;cursor:pointer;">Back</button>
+    </div>
+  </div>
+
+  <script>
+    const librePopup = document.getElementById('librePopup');
+    const closeLibrePopup = document.getElementById('closeLibrePopup');
+
+    closeLibrePopup.addEventListener('click', ()=>{
+      librePopup.style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>

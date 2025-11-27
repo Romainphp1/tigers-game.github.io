@@ -4,38 +4,49 @@
   <meta charset="UTF-8" />
   <title>Tiger's Web - Rules</title>
   <style>
-    body {
-      font-family: Arial;
-      background: #0b3d20;
-      color: white;
-      padding: 30px;
+    body{
+      margin:0;
+      padding:0;
+      background:linear-gradient(180deg,#0b3a24,#084422);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      font-family:Inter,system-ui;
+      color:#fff;
     }
-    h1 { text-align: center; }
-    a { color: #f1c40f; font-size: 22px; }
-    .box {
-      background: rgba(0,0,0,0.4);
-      padding: 25px;
-      border-radius: 15px;
+    .rules-container{
+      display:flex;
+      flex-direction:column;
+      gap:30px;
+      max-width:90%;
+      padding:20px;
     }
-    h2 { color: #f1c40f; }
+    img{
+      width:100%;
+      border-radius:12px;
+      box-shadow:0 8px 25px rgba(0,0,0,0.5);
+    }
+    a.back{
+      margin-top:25px;
+      padding:12px 24px;
+      background:#2c6e49;
+      color:#fff;
+      text-decoration:none;
+      border-radius:10px;
+      font-size:20px;
+      transition:0.3s;
+    }
+    a.back:hover{ background:#3b844e; }
   </style>
 </head>
 <body>
-  <h1>Game Rules - Tiger's Web</h1>
-  <div class="box">
-    <h2>Context & Story</h2>
-    <p>Tigers escape from the zoo and must cross the city to reach the jungle...</p>
-
-    <h2>Goal of the Game</h2>
-    <p>Be the first tiger to reach the jungle by answering questions about Internet safety...</p>
-
-    <h2>Rules</h2>
-    <p>Follow all gameplay instructions as described in your full rule document.</p>
-
-    <h2>Bonus Rules</h2>
-    <p>Cheating is allowed... but risky!</p>
+  <div class="rules-container">
+    <img src="https://media.discordapp.net/attachments/935602327866458154/1443532320949928068/Sans_titre-16-Rules_Interieur.png?ex=692969bc&is=6928183c&hm=19deeb58babd570e2fe586e3726f4f7defd96686d282d4d35955c2955ff33810&=&format=webp&quality=lossless&width=1954&height=1382" alt="Rules intérieur" />
+    <img src="https://media.discordapp.net/attachments/935602327866458154/1443532320287096832/Sans_titre-17-Rules_Exterieur.png?ex=692969bc&is=6928183c&hm=6d19fa46ea1501f0912b138763cfe68af10441dc7be39c358ebedfaed4d70925&=&format=webp&quality=lossless&width=1954&height=1382" alt="Rules extérieur" />
   </div>
 
-  <br><a href="index.html">⬅ Retour</a>
+  <a class="back" href="index.html">⬅ Back</a>
 </body>
 </html>
